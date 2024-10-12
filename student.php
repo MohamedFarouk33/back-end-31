@@ -13,14 +13,14 @@ auth();
   include_once './vendor/env.php';
 include_once './vendor/functions.php';
 
-$select = "SELECT * FROM users";
+$select = "SELECT * FROM student ";
 $allData = mysqli_query($connect, $select);
 $counter = 0;
 
 if (isset($_GET['delete'])) {
   $id = $_GET['delete'];
 
-  $delete = "DELETE FROM users where id  =$id";
+  $delete = "DELETE FROM student where id  =$id";
   $d = mysqli_query($connect, $delete);
   $allData = mysqli_query($connect, $select);
   
@@ -41,26 +41,25 @@ if (isset($_GET['delete'])) {
             </div>
         </form>
         <div class="card-body">
-            <h6 class="mt-3"> List All Users
-
-                <a class="float-end btn btn-info" href="./create.php">Create</a>
+            <h6 class="mt-3"> List All student
+            <a class="float-end btn btn-info" href="./create co.php">Create</a>
             </h6>
             <table id="myTable" class="table mt-5">
                 <tr>
-                    <th>Number#</th>
-                    <th> Name</th>
-                    <th>Email </th>
-                    <th>Type </th>
+                    <th>id</th>
+                    <th>name</th>
+                    <th> course_name</th>
+                    <th>instractor_name </th>
                     <th colspan="2">Action</th>
+
                 </tr>
                 <?php foreach ($allData as $item): ?>
                     <tr>
-                    <th> <?= ++$counter  ?> </th>
+                        <th> <?= $item['id']  ?> </th>
                         <th> <?= $item['name']  ?> </th>
-                        <th> <?= $item['email']  ?> </th>
-                        <th> <?= $item['parent_id']  ?> </th>
-                        <th> <a href="./edit.php?edit=<?= $item['id'] ?>"><i class="text-info fa-solid fa-pen-to-square"></i></a> </th>
-                        <th> <a href="users.php?delete=<?= $item['id'] ?>"><i class="text-danger fa-solid fa-trash-can"></i></a> </th>
+                        <th> <?= $item['course_name']  ?> </th>
+                        <th> <?= $item['instructor_name']  ?> </th>
+                        <th> <a href="courses a.php?delete=<?= $item['id'] ?>"><i class="text-danger fa-solid fa-trash-can"></i></a> </th>
                     </tr>
                     <?php endforeach; ?>
             </table>

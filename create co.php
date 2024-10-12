@@ -7,26 +7,16 @@ include_once './shared/head.php' ;
 if (isset($_POST['register'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
-    $select = "SELECT * FROM `users` where `email` = '$email' ";
+    $select = "SELECT * FROM courses";
     $data =  mysqli_query($connect, $select);
-    $numRows =  mysqli_num_rows($data);
-    if ($numRows > 0) {
-        echo "using anther mail";
-    } else {
-        $hash_password = password_hash($password, PASSWORD_DEFAULT);
-        $image_name = rand(0, 1000) . $_FILES['image']['name'];
-        $tmp_name = $_FILES['image']['tmp_name'];
-        $location = "app/users/upload/$image_name";
-        $full_path =  $location;
-        $result =  move_uploaded_file($tmp_name, $location);
-        $insert = "INSERT INTO users VALUES (NULL , '$name','$email','$hash_password','$full_path' ,'3')";
-        $i = mysqli_query($connect, $insert);
-        redirect("users.php");
-    }
-}
 
- 
+        $insert = "INSERT INTO courses VALUES (NULL ,'$name','$email')";
+        $i = mysqli_query($connect, $insert);
+        redirect("courses a.php");
+    
+}
+$sql = "SELECT name FROM users where parent_id = 3";  // Query to fetch only the names
+$result = mysqli_query($connect, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -63,31 +53,32 @@ if (isset($_POST['register'])) {
 
                                     <form class="row g-3 needs-validation" method="post" enctype="multipart/form-data">
                                         <div class="col-12">
-                                            <label for="yourName" class="form-label">Your Name</label>
+                                            <label for="yourName" class="form-label">Course Name</label>
                                             <input type="text" name="name" class="form-control" id="yourName" required>
                                             <div class="invalid-feedback">Please, enter your name!</div>
                                         </div>
 
-                                        <div class="col-12">
-                                            <label for="yourEmail" class="form-label">Your Email</label>
-                                            <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                            <div class="invalid-feedback">Please enter a valid Email adddress!</div>
-                                        </div>
+                                        <label for="instructor">Choose an Instructor:</label>
+                                        <select name="email" id="instructor">
+                                        <?php
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<option  value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+    }
+} else {
+    echo "<option>No instructors found</option>";
+}
+
+                                        ?>
+                                        </select>
 
 
 
-                                        <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                            <div class="invalid-feedback">Please enter your password!</div>
-                                        </div>
+                                        
 
+                                        
                                         <div class="col-12">
-                                            <label class="form-label"> Your Image </label>
-                                            <input type="file" name="image" class="form-control btn btn-outline-primary" required>
-                                        </div>
-                                        <div class="col-12">
-                                            <button name="register" class="btn btn-primary w-100" type="submit">Create Account</button>
+                                            <button name="register" class="btn btn-primary w-100" type="submit">Create Course</button>
                                         </div>
                                         
                                     </form>

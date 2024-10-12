@@ -20,7 +20,7 @@ if (isset($_POST['register'])) {
         $location = "app/users/upload/$image_name";
         $full_path =  $location;
         $result =  move_uploaded_file($tmp_name, $location);
-        $insert = "INSERT INTO users VALUES (NULL , '$name','$email','$hash_password','$full_path' ,DEFAULT)";
+        $insert = "INSERT INTO users VALUES (NULL , '$name','$email','$hash_password','$full_path' ,'2')";
         $i = mysqli_query($connect, $insert);
         redirect("login.php");
     }
